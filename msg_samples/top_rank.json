@@ -1,0 +1,32 @@
+{
+    "cmd": "ONLINE_RANK_V2",
+    "data": {
+        "list": [
+            {
+                "uid": 209672521,
+                "face": "https://i1.hdslb.com/bfs/face/5f8ec422060213b71caa65c1bfa97113fc780ec8.jpg",
+                "score": "5",
+                "uname": "小星D",
+                "rank": 1,
+                "guard_level": 0
+            },
+            {
+                "uid": 1895614946,
+                "face": "https://i2.hdslb.com/bfs/face/e00270df5bb19a52180f3f2635b6723ce042fd75.jpg",
+                "score": "3",
+                "uname": "浅墨_残云",
+                "rank": 2,
+                "guard_level": 0
+            },
+            {
+                "uid": 82300082,
+                "face": "https://i2.hdslb.com/bfs/face/2d62dcc7e86008dc67d5e2cbd08d530dd04f3076.jpg",
+                "score": "2",
+                "uname": "梦卿XD",
+                "rank": 3,
+                "guard_level": 0
+            }
+        ],
+        "rank_type": "gold-rank"
+    }
+}

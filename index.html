@@ -41,6 +41,10 @@
         font-size: 14px;
     }
 
+    .gift {
+        color: #edd400;
+    }
+
     .enter-container {
         margin-bottom: 8px;
         position: fixed;
@@ -127,6 +131,7 @@
                     console.log(element);
 
                     if (element.cmd == "DANMU_MSG") {
+                        // 弹幕
                         document
                             .getElementById("message")
                             .insertAdjacentHTML(
@@ -142,10 +147,19 @@
                                 element.info[1]
                         );
                     } else if (element.cmd == "INTERACT_WORD") {
+                        // 进入直播间
                         document.getElementById(
                             "enter"
                         ).innerHTML = `<div><span class="enter">${element.data.uname} 进入直播间</span></div>`;
                         console.log("进入直播: " + element.data.uname);
+                    } else if (element.cmd == "SEND_GIFT") {
+                        // 礼物
+                        document
+                            .getElementById("message")
+                            .insertAdjacentHTML(
+                                "afterbegin",
+                                `<div><span class="gift">感谢 ${element.data.uname} ${element.data.action}的 ${element.data.num} 个${element.data.giftName}</span></div>`
+                            );
                     }
                 }
             }
