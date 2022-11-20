@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>danmu</title>
+    </head>
+
+    <body>
+        <div id="message"></div>
+        <div id="enter" class="enter-container"></div>
+    </body>
+</html>
+
+<style type="text/css">
+    body {
+        margin-top: 8px;
+        font-family: Renogare, "Mi Sans Medium", "微软雅黑";
+        font-weight: bold;
+        width: 300px;
+        font-size: 14px;
+        color: #fefefe;
+        position: relative;
+    }
+
+    #message {
+        height: calc(100vh - 40px);
+        overflow: hidden;
+    }
+
+    .usr {
+        color: rgb(117, 122, 129);
+    }
+
+    .msg {
+        padding-left: 5px;
+    }
+
+    .enter {
+        color: #8cd918;
+        font-size: 14px;
+    }
+
+    .enter-container {
+        margin-bottom: 8px;
+        position: fixed;
+        bottom: 0;
+    }
+</style>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/pako/0.1.0/pako.min.js"></script>
+<script type="text/javascript">
+    var ws = new WebSocket("wss://broadcastlv.chat.bilibili.com/sub");
+
+    var room_id = 4747410;
+    var json = {
+        uid: 0,
+        roomid: room_id,
+        protover: 1,
+        platform: "web",
+        clientver: "1.4.0",
+    };
+
+    ws.onopen = () => {
+        console.log("WebSocket 已连接上");
+        ws.send(getCertification(JSON.stringify(json)).buffer);
+    };
+
+    function getCertification(json) {
+        var bytes = str2bytes(json);
+        var n1 = new ArrayBuffer(bytes.length + 16);
+        var i = new DataView(n1);
+        i.setUint32(0, bytes.length + 16), i.setUint16(4, 16), i.setUint16(6, 1), i.setUint32(8, 7), i.setUint32(12, 1);
+        for (var r = 0; r < bytes.length; r++) {
+            i.setUint8(16 + r, bytes[r]);
+        }
+        return i;
+    }
+
+    function str2bytes(str) {
+        const bytes = [];
+        let c;
+        const len = str.length;
+        for (let i = 0; i < len; i++) {
+            c = str.charCodeAt(i);
+            if (c >= 0x010000 && c <= 0x10ffff) {
+                bytes.push(((c >> 18) & 0x07) | 0xf0);
+                bytes.push(((c >> 12) & 0x3f) | 0x80);
+                bytes.push(((c >> 6) & 0x3f) | 0x80);
+                bytes.push((c & 0x3f) | 0x80);
+            } else if (c >= 0x000800 && c <= 0x00ffff) {
+                bytes.push(((c >> 12) & 0x0f) | 0xe0);
+                bytes.push(((c >> 6) & 0x3f) | 0x80);
+                bytes.push((c & 0x3f) | 0x80);
+            } else if (c >= 0x000080 && c <= 0x0007ff) {
+                bytes.push(((c >> 6) & 0x1f) | 0xc0);
+                bytes.push((c & 0x3f) | 0x80);
+            } else {
+                bytes.push(c & 0xff);
+            }
+        }
+        return bytes;
+    }
+
+    ws.onopen = function () {
+        console.log("WebSocket 已连接上");
+        ws.send(getCertification(JSON.stringify(json)).buffer);
+        timer = setInterval(function () {
+            var n1 = new ArrayBuffer(16);
+            var i = new DataView(n1);
+            i.setUint32(0, 0), i.setUint16(4, 16), i.setUint16(6, 1), i.setUint32(8, 2), i.setUint32(12, 1);
+            ws.send(i.buffer);
+        }, 30000);
+    };
+
+    ws.onclose = function () {
+        console.log("连接已关闭");
+        if (timer != null) clearInterval(timer);
+    };
+
+    ws.onmessage = function (evt) {
+        var blob = evt.data;
+        decode(blob, function (packet) {
+            if (packet.op == 5) {
+                for (let i = 0; i < packet.body.length; i++) {
+                    var element = packet.body[i];
+                    console.log(element);
+
+                    if (element.cmd == "DANMU_MSG") {
+                        document
+                            .getElementById("message")
+                            .insertAdjacentHTML(
+                                "afterbegin",
+                                `<div><span class="usr">${element.info[2][1]}: </span><span class="msg">${element.info[1]}</span></div>`
+                            );
+                        console.log(
+                            "uid: " +
+                                element.info[2][0] +
+                                " 用户: " +
+                                element.info[2][1] +
+                                " \n内容: " +
+                                element.info[1]
+                        );
+                    } else if (element.cmd == "INTERACT_WORD") {
+                        document.getElementById(
+                            "enter"
+                        ).innerHTML = `<div><span class="enter">${element.data.uname} 进入直播间</span></div>`;
+                        console.log("进入直播: " + element.data.uname);
+                    }
+                }
+            }
+        });
+    };
+
+    var textDecoder = new TextDecoder("utf-8");
+    const readInt = function (buffer, start, len) {
+        let result = 0;
+        for (let i = len - 1; i >= 0; i--) {
+            result += Math.pow(256, len - i - 1) * buffer[start + i];
+        }
+        return result;
+    };
+
+    function decode(blob, call) {
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            let buffer = new Uint8Array(e.target.result);
+            let result = {};
+            result.packetLen = readInt(buffer, 0, 4);
+            result.headerLen = readInt(buffer, 4, 2);
+            result.ver = readInt(buffer, 6, 2);
+            result.op = readInt(buffer, 8, 4);
+            result.seq = readInt(buffer, 12, 4);
+            if (result.op == 5) {
+                result.body = [];
+                let offset = 0;
+                while (offset < buffer.length) {
+                    let packetLen = readInt(buffer, offset + 0, 4);
+                    let headerLen = 16;
+                    let data = buffer.slice(offset + headerLen, offset + packetLen);
+
+                    let body = "{}";
+                    if (result.ver == 2) {
+                        body = textDecoder.decode(pako.inflate(data));
+                    } else {
+                        body = textDecoder.decode(data);
+                    }
+                    if (body) {
+                        const group = body.split(/[\x00-\x1f]+/);
+                        group.forEach((item) => {
+                            try {
+                                result.body.push(JSON.parse(item));
+                            } catch (e) {}
+                        });
+                    }
+                    offset += packetLen;
+                }
+            }
+            call(result);
+        };
+        reader.readAsArrayBuffer(blob);
+    }
+</script>
