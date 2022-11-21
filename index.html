@@ -13,6 +13,10 @@
 </html>
 
 <style type="text/css">
+    html {
+        background: #000;
+    }
+
     body {
         margin-top: 8px;
         font-family: Renogare, "Mi Sans Medium", "微软雅黑";
@@ -25,7 +29,7 @@
 
     #message {
         height: calc(100vh - 40px);
-        overflow: hidden;
+        overflow-y: hidden;
     }
 
     .usr {
@@ -41,7 +45,7 @@
         font-size: 14px;
     }
 
-    .gift {
+    .gift-gold {
         color: #edd400;
     }
 
@@ -56,7 +60,7 @@
 <script type="text/javascript">
     var ws = new WebSocket("wss://broadcastlv.chat.bilibili.com/sub");
 
-    var room_id = 4747410;
+    var room_id = 60989;
     var json = {
         uid: 0,
         roomid: room_id,
@@ -154,12 +158,21 @@
                         console.log("进入直播: " + element.data.uname);
                     } else if (element.cmd == "SEND_GIFT") {
                         // 礼物
-                        document
-                            .getElementById("message")
-                            .insertAdjacentHTML(
-                                "afterbegin",
-                                `<div><span class="gift">感谢 ${element.data.uname} ${element.data.action}的 ${element.data.num} 个${element.data.giftName}</span></div>`
-                            );
+                        if (element.data.coin_type == "gold") {
+                            document
+                                .getElementById("message")
+                                .insertAdjacentHTML(
+                                    "afterbegin",
+                                    `<div><span class="gift-gold">感谢 ${element.data.uname} ${element.data.action}的 ${element.data.num} 个${element.data.giftName}</span></div>`
+                                );
+                        } else {
+                            document
+                                .getElementById("message")
+                                .insertAdjacentHTML(
+                                    "afterbegin",
+                                    `<div><span class="gift-silver">感谢 ${element.data.uname} ${element.data.action}的 ${element.data.num} 个${element.data.giftName}</span></div>`
+                                );
+                        }
                     }
                 }
             }
