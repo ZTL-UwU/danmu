@@ -1,0 +1,50 @@
+{
+    "cmd": "DANMU_MSG",
+    "info": [
+        [
+            0,
+            1,
+            25,
+            5566168,
+            1669013555156,
+            -644751563,
+            0,
+            "63965c8e",
+            0,
+            0,
+            0,
+            "",
+            0,
+            "{}",
+            "{}",
+            {
+                "mode": 0,
+                "show_player_type": 0,
+                "extra": "{\"send_from_me\":false,\"mode\":0,\"color\":5566168,\"dm_type\":0,\"font_size\":25,\"player_mode\":1,\"show_player_type\":0,\"content\":\"我超花\",\"user_hash\":\"1670798478\",\"emoticon_unique\":\"\",\"bulge_display\":0,\"recommend_score\":1,\"main_state_dm_color\":\"\",\"objective_state_dm_color\":\"\",\"direction\":0,\"pk_direction\":0,\"quartet_direction\":0,\"anniversary_crowd\":0,\"yeah_space_type\":\"\",\"yeah_space_url\":\"\",\"jump_to_url\":\"\",\"space_type\":\"\",\"space_url\":\"\"}"
+            },
+            {
+                "activity_identity": "",
+                "activity_source": 0,
+                "not_show": 0
+            }
+        ],
+        "我超花",
+        [32926432, "碳_UWU", 0, 0, 0, 10000, 1, ""],
+        [10, "丶花花", "fireflUwU", 13401410, 9272486, "", 0, 9272486, 9272486, 9272486, 0, 1, 162098972],
+        [6, 0, 9868950, ">50000", 2],
+        ["", ""],
+        0,
+        0,
+        null,
+        {
+            "ts": 1669013555,
+            "ct": "ECFB1133"
+        },
+        0,
+        0,
+        null,
+        null,
+        0,
+        49
+    ]
+}

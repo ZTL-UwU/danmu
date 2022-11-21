@@ -1,0 +1,38 @@
+{
+    "cmd": "INTERACT_WORD",
+    "data": {
+        "contribution": {
+            "grade": 0
+        },
+        "dmscore": 16,
+        "fans_medal": {
+            "anchor_roomid": 21669490,
+            "guard_level": 0,
+            "icon_id": 0,
+            "is_lighted": 1,
+            "medal_color": 13081892,
+            "medal_color_border": 13081892,
+            "medal_color_end": 13081892,
+            "medal_color_start": 13081892,
+            "medal_level": 17,
+            "medal_name": "无草",
+            "score": 202979,
+            "special": "",
+            "target_id": 2700768
+        },
+        "identities": [3, 1],
+        "is_spread": 0,
+        "msg_type": 1,
+        "privilege_type": 0,
+        "roomid": 13401410,
+        "score": 1669226608799,
+        "spread_desc": "",
+        "spread_info": "",
+        "tail_icon": 0,
+        "timestamp": 1669013629,
+        "trigger_time": 1669013628733151700,
+        "uid": 7180334,
+        "uname": "发豆芽",
+        "uname_color": ""
+    }
+}
