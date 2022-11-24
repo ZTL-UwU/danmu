@@ -46,7 +46,7 @@
     }
 
     .enter {
-        color: #8cd918;
+        color: rgb(117, 122, 129);
         font-size: 14px;
     }
 
@@ -102,13 +102,25 @@
         font-size: 11px;
         margin-right: 4px;
     }
+
+    .rank {
+        padding: 0 2px;
+        height: 14px;
+        background: rgb(230, 93, 14);
+        color: #fff;
+        border: 1px solid rgb(230, 93, 14);
+        border-radius: 2px;
+        line-height: 14px;
+        font-size: 11px;
+        margin-right: 4px;
+    }
 </style>
 
 <script src="https://cdn.bootcdn.net/ajax/libs/pako/0.1.0/pako.min.js"></script>
 <script type="text/javascript">
     var ws = new WebSocket("wss://broadcastlv.chat.bilibili.com/sub");
 
-    var room_id = 3253817;
+    var room_id = 25310204;
     var json = {
         uid: 0,
         roomid: room_id,
@@ -174,11 +186,14 @@
         if (timer != null) clearInterval(timer);
     };
 
-    function medal(data, is_msg) {
+    function medal(data, type) {
         if (data.length != 0) {
-            if (is_msg && data[11]) {
+            if (type == "msg" && data[11]) {
                 let color = parseInt(data[4]).toString(16);
                 return `<span class="medal" style="background-color: #${color};"><span class="medal-label" style="color: #FFFFFF;">${data[1]}</span><span class="medal-level" style="color: #${color}; background-color: #FFFFFF;">${data[0]}</span></span>`;
+            } else if (type == "enter" && data.is_lighted) {
+                let color = parseInt(data.medal_color).toString(16);
+                return `<span class="medal" style="background-color: #${color};"><span class="medal-label" style="color: #FFFFFF;">${data.medal_name}</span><span class="medal-level" style="color: #${color}; background-color: #FFFFFF;">${data.medal_level}</span></span>`;
             }
         }
 
@@ -194,10 +209,24 @@
     }
 
     function rank_icon(rank) {
-        if (rank == 1) {
-            return `<i style="background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAgCAMAAABjCgsuAAABmFBMVEX/gWb/cWz/cGwAAAD/cWz/S4r/l07/S4r/mE7/UpL/Sov/mE3/fmD/////a2//bW3/2Nv/cWv/eGX/emT/X3n/ZHX/anH/c2n/aHL/fGL/iVj/gF//g1z/VIL/W3z/ZnP/b2z/VoH/WX7/hVv/i1b/3Nn/UYT/hlr/h1n/d2b/gV7/XXv/klH/WH//dGj/e2P/gl3/TYj/YXf/dmf/dWf/T4b/jFX/j1L/2tv/XXr/YXj/lE7/V3//jlT/Y3f/YnX/x8L/xLn/1df/ycv/vsD/wbz/srn/y8b/s67/t6v/uqf/gWn/jFT/2N3/ztX/0ND/w8X/ucX/r6//oaz/jpD/koX/YYH/ioD/ZoD/fnD/087/xMz/ycf/ub3/rrv/u7f/pbb/l5n/lJD/eoD/hHn/d3P/c3L/dm3/1dn/ytD/xsn/tLv/xrb/s7T/rbH/p6v/kpz/pJn/eon/cob/fnv/g3H/7Ov/vcb/rqP/lKP/foT/b33/d3n/bXL/e2z/8/P/uL//vrn/oKT/iJn/bo3/iYP/bYP/aXqKkCEdAAAADHRSTlMc5qYA7ebmpqYc7e2SzZU0AAADJklEQVQ4y33TV1taQRAG4LFrIrJg7ygeBWwELGgiSNWEgCBdmjSxxN5revK3M7vLWdGL7PU73zNnzgzUtTQ1vKNvfn58fHxwcHBk5MP09Ojo0NDk5FJHx/KyydbZOTw83NPT1VVTC3XQ8oZz7pGPyHwSuclkRc95W1ubsh6gSfBBHi84jX/JlRpNLTSIbgRHv7TE4zvR93CvRK9S1QDqF3xUcCvjw88cfXc3cM84esFfNS/zmTmQOcZHf8X5aP6cv+ZKzmfm5oBxPsptfzBK038m/WdslMhF89zr9VA1+W1fMB7PZDIHfnLt8XiOWXz+q0KxSTmmm/V6NQgejdKCcz+Rn+sRuzlU4FtX0XSzWa1ubwf5W6OZYNK3F9wOhfzEE0oT53HuEbtRsAKMx3T0s7OA8exHxa99Pow9ODtzkaO7NEnfFWjzCsUVFqBX6zF+trcVxNrchpIkGfI4HLtk10GIw7FxgaO8Cn/HAjOmU97b2gpi8svne2T//oQ4nPtO537Kadm4wG8tdbsVio96mbf2A+PoTbZb7MhzQpyFcGAj/JDDAvattEDwfgNMUm4y2ax/vxFacXQczjkth+H8erbMRskKZivcYIQOectOsPOAw0Us/EmSFKOTV9uxgMcbjMaBAZDX5j5A0sR1kEsFsPtV+taK7FtpAYs3otdqAbtha1PYCxwR146yVMpK7t+xWCySYJOnBZ8w3YDp2omJCbBZ+Zb1HP7YtLh2NJodt8TeVpHy3l5awLrRotfpQJxI4YEVqPKSlMJ+pK1L/K/4sbTAMMDidX19fVC1xFhQUhVXpWwikTiV1i75KL9gAeXMj41B1YlsWtzlPEbHniIRu2T3osfmWYG2whcWoGrn1yV3Ef2pPiLhY6MxGFgB5dyvQNXB3qSy5dO1iFrtta/ab7zUy83rKnxlEaoOtpx4Musv6dp4vV4+eeRawT+vLC5OgeDdM2Z+ImJtqvkYcuqnQBwseraU6PnaCN4nc/TvoUYjDpbGi3QWr3tunmr0jVCLHL04EeFfN48aXzNAPeP/aZ5z7t8C1EFtTeW+q9LRi+afeWMz1P0DSpf/JHLD0fkAAAAASUVORK5CYII=);"></i>`;
+        if (rank >= 1 && rank <= 3) {
+            return `<span class="rank">榜${rank}</span>`;
         }
+
+        return "";
     }
+
+    function get_rank(user_id) {
+        for (let i = 0; i < online_rank.length; i++) {
+            if (online_rank[i].uid == user_id) {
+                return online_rank[i].rank;
+            }
+        }
+
+        return -1;
+    }
+
+    var online_rank = [];
 
     ws.onmessage = function (evt) {
         var blob = evt.data;
@@ -213,7 +242,7 @@
                             .getElementById("message")
                             .insertAdjacentHTML(
                                 "afterbegin",
-                                `<div class="line">${medal(element.info[3], true)}${admin(
+                                `<div class="line">${rank_icon(get_rank(element.info[2][0]))}${medal(element.info[3], "msg")}${admin(
                                     element.info[2][2]
                                 )}<span class="usr">${element.info[2][1]}: </span><span class="msg">${
                                     element.info[1]
@@ -223,24 +252,26 @@
                         // 进入直播间
                         document.getElementById(
                             "enter"
-                        ).innerHTML = `<div><span class="enter">${element.data.uname} 进入直播间</span></div>`;
+                        ).innerHTML = `<div><span class="enter">${medal(element.data.fans_medal, "enter")}${element.data.uname} 进入直播间</span></div>`;
                     } else if (element.cmd == "SEND_GIFT") {
                         // 礼物
-                        if (element.data.coin_type == "gold") {
+                        if (element.data.coin_type == "gold") { // 电池礼物
                             document
                                 .getElementById("message")
                                 .insertAdjacentHTML(
                                     "afterbegin",
-                                    `<div class="line"><span class="gift-gold">感谢 ${element.data.uname} ${element.data.action}的 ${element.data.num} × ${element.data.giftName}</span></div>`
+                                    `<div class="line"><span class="gift-gold">感谢 ${medal(element.data.medal_info, "enter")}${element.data.uname} ${element.data.action}的 ${element.data.num} × ${element.data.giftName}</span></div>`
                                 );
-                        } else {
+                        } else { // 银瓜子礼物
                             document
                                 .getElementById("message")
                                 .insertAdjacentHTML(
                                     "afterbegin",
-                                    `<div class="line"><span class="usr">${element.data.uname}: </span><span class="msg">${element.data.num} × ${element.data.giftName}</span></div>`
+                                    `<div class="line"><span class="usr">${medal(element.data.medal_info, "enter")}${element.data.uname}: </span><span class="msg">${element.data.num} × ${element.data.giftName}</span></div>`
                                 );
                         }
+                    } else if (element.cmd == "ONLINE_RANK_V2") {
+                        online_rank = element.data.list;
                     }
                 }
             }
