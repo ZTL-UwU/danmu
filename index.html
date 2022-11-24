@@ -21,15 +21,20 @@
         margin-top: 8px;
         /* font-family: Renogare, "Mi Sans Medium", "微软雅黑"; */
         font-family: "Microsoft YaHei", "Microsoft Sans Serif", "Microsoft SanSerf", "微软雅黑";
-        width: 300px;
         font-size: 14px;
         color: #fefefe;
         position: relative;
     }
 
     #message {
+        width: 100%;
         height: calc(100vh - 40px);
         overflow-y: hidden;
+    }
+
+    #message:hover,
+    #enter:hover {
+        outline: 4px solid red;
     }
 
     .usr {
@@ -43,6 +48,10 @@
     .enter {
         color: #8cd918;
         font-size: 14px;
+    }
+
+    #enter {
+        width: calc(100% - 16px);
     }
 
     .gift-gold {
@@ -99,7 +108,7 @@
 <script type="text/javascript">
     var ws = new WebSocket("wss://broadcastlv.chat.bilibili.com/sub");
 
-    var room_id = 4747410;
+    var room_id = 3253817;
     var json = {
         uid: 0,
         roomid: room_id,
@@ -222,14 +231,14 @@
                                 .getElementById("message")
                                 .insertAdjacentHTML(
                                     "afterbegin",
-                                    `<div class="line"><span class="gift-gold">感谢 ${element.data.uname} ${element.data.action}的 ${element.data.num} 个${element.data.giftName}</span></div>`
+                                    `<div class="line"><span class="gift-gold">感谢 ${element.data.uname} ${element.data.action}的 ${element.data.num} × ${element.data.giftName}</span></div>`
                                 );
                         } else {
                             document
                                 .getElementById("message")
                                 .insertAdjacentHTML(
                                     "afterbegin",
-                                    `<div class="line"><span class="gift-silver">感谢 ${element.data.uname} ${element.data.action}的 ${element.data.num} 个${element.data.giftName}</span></div>`
+                                    `<div class="line"><span class="usr">${element.data.uname}: </span><span class="msg">${element.data.num} × ${element.data.giftName}</span></div>`
                                 );
                         }
                     }
