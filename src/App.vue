@@ -4,6 +4,7 @@ import Preview from './components/Preview.vue';
 export default {
   data() {
     return {
+      config_str: JSON.stringify(this.config),
       preview_bg: "rgba(55, 55, 55, 1)",
       config: {
         "general": {
@@ -51,10 +52,10 @@ export default {
           "gold": {
             "weight": 500,
             "show": true,
+            "size": "14px",
             "color": "#edd400",
           },
           "silver": {
-            "weight": 500,
             "show": true,
           }
         },
@@ -67,6 +68,7 @@ export default {
   },
   methods: {
     set_config() {
+      this.config_str = JSON.stringify(this.config);
       console.log(JSON.stringify(this.config));
     }
   },
@@ -136,7 +138,7 @@ export default {
                   <el-input v-model="config.danmu.line_margin"></el-input>
                 </el-col>
               </el-row>
-              
+
               <p class="title">粉丝牌
                 <el-switch v-model="config.danmu.show_medal" size="small"
                   style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949" />
@@ -264,6 +266,12 @@ export default {
                   <el-color-picker v-model="config.gift.gold.color" show-alpha />
                 </el-col>
               </el-row>
+              <p class="subtitle">大小</p>
+              <el-row :gutter="10">
+                <el-col :span="18">
+                  <el-input v-model="config.gift.gold.size"></el-input>
+                </el-col>
+              </el-row>
               <p class="subtitle">粗细</p>
               <el-row :gutter="10">
                 <el-col :span="18">
@@ -309,8 +317,8 @@ export default {
         </el-card>
       </el-col>
       <el-col :span="8">
-        <el-card :style="`background: ${preview_bg}`">
-          <Preview></Preview>
+        <el-card :style="`background: ${preview_bg}; border: none;`">
+          <Preview :config="config_str"></Preview>
         </el-card>
       </el-col>
     </el-row>

@@ -4,6 +4,105 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>danmu</title>
+
+        <style type="text/css">
+            body {
+                margin-top: 8px;
+                font-family: "Microsoft YaHei", "Microsoft Sans Serif", "Microsoft SanSerf", "微软雅黑";
+                font-size: 14px;
+                color: #fefefe;
+                position: relative;
+            }
+
+            #message {
+                width: 100%;
+                height: calc(100vh - 40px);
+                overflow-y: hidden;
+            }
+
+            #message:hover,
+            #enter:hover {
+                outline: 4px solid red;
+            }
+
+            .usr {
+                color: rgb(117, 122, 129);
+            }
+
+            .msg {
+                padding-left: 3px;
+            }
+
+            .enter {
+                color: rgb(117, 122, 129);
+                font-size: 14px;
+            }
+
+            #enter {
+                width: calc(100% - 16px);
+            }
+
+            .gift-gold {
+                color: #edd400;
+            }
+
+            .enter-container {
+                margin-bottom: 8px;
+                position: fixed;
+                bottom: 0;
+            }
+
+            .medal {
+                display: inline-block;
+                font-size: 11px;
+                border: 1px solid transparent;
+                border-radius: 2px;
+                margin-right: 4px;
+                line-height: 14px;
+            }
+
+            .medal-label,
+            .medal-level {
+                justify-content: center;
+                align-items: center;
+                min-width: 12px;
+                padding: 0 3px;
+                color: #fff;
+                border-radius: 1px;
+
+                box-sizing: content-box;
+                height: 100%;
+                text-align: center;
+            }
+
+            .line {
+                margin-top: 2px;
+                margin-bottom: 2px;
+            }
+
+            .admin {
+                padding: 0 2px;
+                height: 14px;
+                color: rgb(219, 135, 0);
+                border: 1px solid rgb(219, 135, 0);
+                border-radius: 2px;
+                line-height: 14px;
+                font-size: 11px;
+                margin-right: 4px;
+            }
+
+            .rank {
+                padding: 0 2px;
+                height: 14px;
+                background: rgb(230, 93, 14);
+                color: #fff;
+                border: 1px solid rgb(230, 93, 14);
+                border-radius: 2px;
+                line-height: 14px;
+                font-size: 11px;
+                margin-right: 4px;
+            }
+        </style>
     </head>
 
     <body>
@@ -12,110 +111,11 @@
     </body>
 </html>
 
-<style type="text/css">
-    body {
-        margin-top: 8px;
-        font-family: "Microsoft YaHei", "Microsoft Sans Serif", "Microsoft SanSerf", "微软雅黑";
-        font-size: 14px;
-        color: #fefefe;
-        position: relative;
-    }
-
-    #message {
-        width: 100%;
-        height: calc(100vh - 40px);
-        overflow-y: hidden;
-    }
-
-    #message:hover,
-    #enter:hover {
-        outline: 4px solid red;
-    }
-
-    .usr {
-        color: rgb(117, 122, 129);
-    }
-
-    .msg {
-        padding-left: 3px;
-    }
-
-    .enter {
-        color: rgb(117, 122, 129);
-        font-size: 14px;
-    }
-
-    #enter {
-        width: calc(100% - 16px);
-    }
-
-    .gift-gold {
-        color: #edd400;
-    }
-
-    .enter-container {
-        margin-bottom: 8px;
-        position: fixed;
-        bottom: 0;
-    }
-
-    .medal {
-        display: inline-block;
-        font-size: 11px;
-        border: 1px solid transparent;
-        border-radius: 2px;
-        margin-right: 4px;
-        line-height: 14px;
-    }
-
-    .medal-label,
-    .medal-level {
-        justify-content: center;
-        align-items: center;
-        min-width: 12px;
-        padding: 0 3px;
-        color: #fff;
-        border-radius: 1px;
-
-        box-sizing: content-box;
-        height: 100%;
-        text-align: center;
-    }
-
-    .line {
-        margin-top: 2px;
-        margin-bottom: 2px;
-    }
-
-    .admin {
-        padding: 0 2px;
-        height: 14px;
-        color: rgb(219, 135, 0);
-        border: 1px solid rgb(219, 135, 0);
-        border-radius: 2px;
-        line-height: 14px;
-        font-size: 11px;
-        margin-right: 4px;
-    }
-
-    .rank {
-        padding: 0 2px;
-        height: 14px;
-        background: rgb(230, 93, 14);
-        color: #fff;
-        border: 1px solid rgb(230, 93, 14);
-        border-radius: 2px;
-        line-height: 14px;
-        font-size: 11px;
-        margin-right: 4px;
-    }
-</style>
-
 <script src="https://cdn.bootcdn.net/ajax/libs/pako/0.1.0/pako.min.js"></script>
 <script type="text/javascript">
     var ws = new WebSocket("wss://broadcastlv.chat.bilibili.com/sub");
 
-    var room_id = 23183174;
+    var room_id = 13398143;
     var json = {
         uid: 0,
         roomid: room_id,
@@ -237,32 +237,43 @@
                             .getElementById("message")
                             .insertAdjacentHTML(
                                 "afterbegin",
-                                `<div class="line">${rank_icon(get_rank(element.info[2][0]))}${medal(element.info[3], "msg")}${admin(
-                                    element.info[2][2]
-                                )}<span class="usr">${element.info[2][1]}: </span><span class="msg">${
-                                    element.info[1]
-                                }</span></div>`
+                                `<div class="line">${rank_icon(get_rank(element.info[2][0]))}${medal(
+                                    element.info[3],
+                                    "msg"
+                                )}${admin(element.info[2][2])}<span class="usr">${
+                                    element.info[2][1]
+                                }: </span><span class="msg">${element.info[1]}</span></div>`
                             );
                     } else if (element.cmd == "INTERACT_WORD") {
                         // 进入直播间
-                        document.getElementById(
+                        document.getElementById("enter").innerHTML = `<div><span class="enter">${medal(
+                            element.data.fans_medal,
                             "enter"
-                        ).innerHTML = `<div><span class="enter">${medal(element.data.fans_medal, "enter")}${element.data.uname} 进入直播间</span></div>`;
+                        )}${element.data.uname} 进入直播间</span></div>`;
                     } else if (element.cmd == "SEND_GIFT") {
                         // 礼物
-                        if (element.data.coin_type == "gold") { // 电池礼物
+                        if (element.data.coin_type == "gold") {
+                            // 电池礼物
                             document
                                 .getElementById("message")
                                 .insertAdjacentHTML(
                                     "afterbegin",
-                                    `<div class="line"><span class="gift-gold">感谢 ${medal(element.data.medal_info, "enter")}${element.data.uname} ${element.data.action}的 ${element.data.num} × ${element.data.giftName}</span></div>`
+                                    `<div class="line gift-gold">感谢 ${medal(element.data.medal_info, "enter")}${
+                                        element.data.uname
+                                    } ${element.data.action}的 ${element.data.num} × ${element.data.giftName}</div>`
                                 );
-                        } else { // 银瓜子礼物
+                        } else {
+                            // 银瓜子礼物
                             document
                                 .getElementById("message")
                                 .insertAdjacentHTML(
                                     "afterbegin",
-                                    `<div class="line"><span class="usr">${medal(element.data.medal_info, "enter")}${element.data.uname}: </span><span class="msg">${element.data.num} × ${element.data.giftName}</span></div>`
+                                    `<div class="line gift-silver">${medal(
+                                        element.data.medal_info,
+                                        "enter"
+                                    )}<span class="usr">${element.data.uname}: </span><span class="msg">${
+                                        element.data.num
+                                    } × ${element.data.giftName}</span></div>`
                                 );
                         }
                     } else if (element.cmd == "ONLINE_RANK_V2") {
