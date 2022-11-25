@@ -1,47 +1,269 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+<script>
+export default {
+  data() {
+    return {
+      config: {
+        "general": {
+          "room_id": 0,
+          "background": {
+            "color": "#00000000",
+          },
+          "font": {
+            "color": "#fefefe",
+            "size": "14px",
+            "family": '"Microsoft YaHei", "Microsoft Sans Serif", "Microsoft SanSerf", "微软雅黑"',
+          }
+        },
+        "danmu": {
+          "show_medal": true,
+          "rank": {
+            "show": true,
+            "color": "rgb(230, 93, 14)"
+          },
+          "admin": {
+            "show": true,
+            "color": "rgb(219, 135, 0)",
+          },
+          "username": {
+            "color": "rgb(117, 122, 129)",
+            "size": "14px",
+          },
+          "content": {
+            "color": "#fefefe",
+            "size": "14px",
+          }
+        },
+        "enter": {
+          "show": true,
+          "color": "rgb(117, 122, 129)",
+          "size": "14px",
+          "show_medal": true,
+        },
+        "gift": {
+          "gold": {
+            "show": true,
+            "color": "#edd400",
+          },
+          "silver": {
+            "show": true,
+          }
+        }
+      },
+    };
+  },
+  methods: {
+    set_config() {
+      console.log(JSON.stringify(this.config));
+    }
+  }
+}
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
   <main>
-    <TheWelcome />
+    <el-row :gutter="20">
+      <el-col :span="16">
+        <el-card style="position: relative;">
+          <el-tabs tab-position="left">
+            <el-tab-pane label="常规" class="tab-content">
+              <p class="title">房间号</p>
+              <el-row :gutter="10">
+                <el-col :span="18">
+                  <el-input v-model="config.general.room_id"></el-input>
+                </el-col>
+              </el-row>
+
+              <p class="title">背景</p>
+              <el-row :gutter="10">
+                <el-col :span="18">
+                  <el-input v-model="config.general.background.color"></el-input>
+                </el-col>
+                <el-col :span="6">
+                  <el-color-picker v-model="config.general.background.color" show-alpha />
+                </el-col>
+              </el-row>
+
+              <p class="title">字体</p>
+              <p class="subtitle">样式</p>
+              <el-row :gutter="10">
+                <el-col :span="18">
+                  <el-input v-model="config.general.font.family"></el-input>
+                </el-col>
+              </el-row>
+              <p class="subtitle">颜色</p>
+              <el-row :gutter="10">
+                <el-col :span="18">
+                  <el-input v-model="config.general.font.color"></el-input>
+                </el-col>
+                <el-col :span="6">
+                  <el-color-picker v-model="config.general.font.color" show-alpha />
+                </el-col>
+              </el-row>
+              <p class="subtitle">大小</p>
+              <el-row :gutter="10">
+                <el-col :span="18">
+                  <el-input v-model="config.general.font.size"></el-input>
+                </el-col>
+              </el-row>
+            </el-tab-pane>
+            <el-tab-pane label="弹幕" class="tab-content">
+              <p class="title">粉丝牌
+                <el-switch v-model="config.danmu.show_medal" size="small"
+                  style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949" />
+              </p>
+
+              <p class="title">房管标识</p>
+              <p class="subtitle">显示
+                <el-switch v-model="config.danmu.admin.show" size="small"
+                  style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949" />
+              </p>
+              <p class="subtitle">颜色</p>
+              <el-row :gutter="10">
+                <el-col :span="18">
+                  <el-input v-model="config.danmu.admin.color"></el-input>
+                </el-col>
+                <el-col :span="6">
+                  <el-color-picker v-model="config.danmu.admin.color" show-alpha />
+                </el-col>
+              </el-row>
+
+              <p class="title">高能榜标识</p>
+              <p class="subtitle">显示
+                <el-switch v-model="config.danmu.rank.show" size="small"
+                  style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949" />
+              </p>
+              <p class="subtitle">颜色</p>
+              <el-row :gutter="10">
+                <el-col :span="18">
+                  <el-input v-model="config.danmu.rank.color"></el-input>
+                </el-col>
+                <el-col :span="6">
+                  <el-color-picker v-model="config.danmu.rank.color" show-alpha />
+                </el-col>
+              </el-row>
+
+              <p class="title">用户名</p>
+              <p class="subtitle">颜色</p>
+              <el-row :gutter="10">
+                <el-col :span="18">
+                  <el-input v-model="config.danmu.username.color"></el-input>
+                </el-col>
+                <el-col :span="6">
+                  <el-color-picker v-model="config.danmu.username.color" show-alpha />
+                </el-col>
+              </el-row>
+              <p class="subtitle">大小</p>
+              <el-row :gutter="10">
+                <el-col :span="18">
+                  <el-input v-model="config.danmu.username.size"></el-input>
+                </el-col>
+              </el-row>
+
+              <p class="title">内容</p>
+              <p class="subtitle">颜色</p>
+              <el-row :gutter="10">
+                <el-col :span="18">
+                  <el-input v-model="config.danmu.content.color"></el-input>
+                </el-col>
+                <el-col :span="6">
+                  <el-color-picker v-model="config.danmu.content.color" show-alpha />
+                </el-col>
+              </el-row>
+              <p class="subtitle">大小</p>
+              <el-row :gutter="10">
+                <el-col :span="18">
+                  <el-input v-model="config.danmu.content.size"></el-input>
+                </el-col>
+              </el-row>
+            </el-tab-pane>
+            <el-tab-pane label="进入直播" class="tab-content">
+              <p class="title">显示
+                <el-switch v-model="config.enter.show" size="small"
+                  style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949" />
+              </p>
+              <p class="subtitle">颜色</p>
+              <el-row :gutter="10">
+                <el-col :span="18">
+                  <el-input v-model="config.enter.color"></el-input>
+                </el-col>
+                <el-col :span="6">
+                  <el-color-picker v-model="config.enter.color" show-alpha />
+                </el-col>
+              </el-row>
+              <p class="subtitle">大小</p>
+              <el-row :gutter="10">
+                <el-col :span="18">
+                  <el-input v-model="config.danmu.content.size"></el-input>
+                </el-col>
+              </el-row>
+              <p class="subtitle">显示粉丝牌
+                <el-switch v-model="config.enter.show_medal" size="small"
+                  style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949" />
+              </p>
+            </el-tab-pane>
+            <el-tab-pane label="礼物" class="tab-content">
+              <p class="title">电池礼物</p>
+              <p class="subtitle">显示
+                <el-switch v-model="config.gift.gold.show" size="small"
+                  style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949" />
+              </p>
+              <p class="subtitle">颜色</p>
+              <el-row :gutter="10">
+                <el-col :span="18">
+                  <el-input v-model="config.gift.gold.color"></el-input>
+                </el-col>
+                <el-col :span="6">
+                  <el-color-picker v-model="config.gift.gold.color" show-alpha />
+                </el-col>
+              </el-row>
+
+              <p class="title">银瓜子礼物</p>
+              <p class="subtitle">显示
+                <el-switch v-model="config.gift.silver.show" size="small"
+                  style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949" />
+              </p>
+            </el-tab-pane>
+          </el-tabs>
+          <div class="set-config-btn">
+            <el-button @click="set_config()">应用设置</el-button>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card shadow="never"></el-card>
+      </el-col>
+    </el-row>
   </main>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
+main {
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.title {
+  color: #303133;
+  font-size: 18px;
+  font-weight: 600;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+.subtitle {
+  color: #909399;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+.tab-content {
+  margin-left: 10px;
+  padding-bottom: 15px;
+}
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.set-config-btn {
+  position: absolute;
+  right: 15px;
+  top: 15px;
 }
 </style>
