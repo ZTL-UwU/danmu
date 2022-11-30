@@ -4,6 +4,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      blob: undefined,
+    }
+  },
   methods: {
     generate_css(config) {
       return `body {
@@ -70,14 +75,23 @@ export default {
   },
   watch: {
     config(new_config) {
+      this.blob = new Blob([`${this.generate_css(JSON.parse(new_config))}`], { type: 'text/css' });
       const frame = document.getElementById('frame');
       const doc = frame.contentWindow.document;
-      const head = doc.getElementsByTagName('head');
-      let style = doc.createElement('style');
-      style.innerHTML = this.generate_css(JSON.parse(new_config));
-      head[0].append(style);
+      const head = doc.getElementsByTagName('head')
+
+      if (doc.getElementsByTagName('link').length === 0) {
+        const linkTag = document.createElement('link');
+        linkTag.href = `${URL.createObjectURL(this.blob)}`;
+        linkTag.setAttribute('rel', 'stylesheet');
+        linkTag.setAttribute('type', 'text/css');
+        head[0].append(linkTag);
+      } else {
+        const link = doc.getElementsByTagName('link');
+        link[0].href = `${URL.createObjectURL(this.blob)}`;
+      }
     }
-  }
+  },
 }
 </script>
 
