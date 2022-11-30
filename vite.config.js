@@ -20,7 +20,7 @@ export default defineConfig({
             resolvers: [ElementPlusResolver()],
         }),
     ],
-    base: './',
+    base: '/danmu/',
     resolve: {
         alias: {
             "@": fileURLToPath(new URL("./src", import.meta.url)),
