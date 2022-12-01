@@ -111,7 +111,6 @@
     </body>
 </html>
 
-<script src="https://cdn.bootcdn.net/ajax/libs/pako/0.1.0/pako.min.js"></script>
 <script type="text/javascript">
     var ws = new WebSocket("wss://broadcastlv.chat.bilibili.com/sub");
 
@@ -123,11 +122,6 @@
         protover: 1,
         platform: "web",
         clientver: "1.4.0",
-    };
-
-    ws.onopen = () => {
-        console.log("WebSocket 已连接上");
-        ws.send(getCertification(JSON.stringify(json)).buffer);
     };
 
     function getCertification(json) {
