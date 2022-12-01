@@ -12,10 +12,7 @@ export default {
             "color": "#00000000",
           },
           "font": {
-            "color": "#fefefe",
-            "size": "14px",
             "family": '"Microsoft YaHei", "Microsoft Sans Serif", "Microsoft SanSerf", "微软雅黑"',
-            "weight": 500,
           }
         },
         "danmu": {
@@ -58,6 +55,7 @@ export default {
           },
           "silver": {
             "show": true,
+            "weight": 500,
           }
         },
         "extra": {
@@ -112,32 +110,10 @@ export default {
                 </el-col>
               </el-row>
 
-              <p class="title">字体</p>
-              <p class="subtitle">样式</p>
+              <p class="title">字体样式</p>
               <el-row :gutter="10">
                 <el-col :span="18">
                   <el-input v-model="config.general.font.family"></el-input>
-                </el-col>
-              </el-row>
-              <p class="subtitle">颜色</p>
-              <el-row :gutter="10">
-                <el-col :span="18">
-                  <el-input v-model="config.general.font.color"></el-input>
-                </el-col>
-                <el-col :span="6">
-                  <el-color-picker v-model="config.general.font.color" show-alpha />
-                </el-col>
-              </el-row>
-              <p class="subtitle">大小</p>
-              <el-row :gutter="10">
-                <el-col :span="18">
-                  <el-input v-model="config.general.font.size"></el-input>
-                </el-col>
-              </el-row>
-              <p class="subtitle">粗细</p>
-              <el-row :gutter="10">
-                <el-col :span="18">
-                  <el-input v-model="config.general.font.weight"></el-input>
                 </el-col>
               </el-row>
             </el-tab-pane>

@@ -270,44 +270,48 @@ export function generate_html(config) {
                             .getElementById("message")
                             .insertAdjacentHTML(
                                 "afterbegin",
-                                \`<div class="line">\${rank_icon(get_rank(element.info[2][0]))}\${medal(
+                                \`<div class="line">${config.danmu.rank.show ? '' : `\${rank_icon(get_rank(element.info[2][0]))}`}${config.danmu.show_medal ? '' : `\${medal(
         element.info[3],
         "msg"
-    )}\${admin(element.info[2][2])}<span class="usr">\${element.info[2][1]}: </span><span class="msg">\${
+    )}`}${config.danmu.admin.show ? '' : `\${admin(element.info[2][2])}`}<span class="usr">\${element.info[2][1]}: </span><span class="msg">\${
         element.info[1]
     }</span></div>\`
                             );
                     } else if (element.cmd == "INTERACT_WORD") {
                         // 进入直播间
-                        document.getElementById("enter").innerHTML = \`<div><span class="enter">\${medal(
+                        document.getElementById("enter").innerHTML = \`<div><span class="enter">${config.enter.show_medal ? '' : `\${medal(
                             element.data.fans_medal,
                             "enter"
-                        )}\${element.data.uname} 进入直播间</span></div>\`;
+                        )}`}\${element.data.uname} 进入直播间</span></div>\`;
                     } else if (element.cmd == "SEND_GIFT") {
                         // 礼物
                         if (element.data.coin_type == "gold") {
                             // 电池礼物
-                            document
-                                .getElementById("message")
-                                .insertAdjacentHTML(
-                                    "afterbegin",
-                                    \`<div class="line gift-gold">感谢 \${medal(element.data.medal_info, "enter")}\${
-        element.data.uname
-    } \${element.data.action}的 \${element.data.num} × \${element.data.giftName}</div>\`
-                                );
+                            if (${config.gift.gold.show ? `true` : `false`}) {
+                                document
+                                    .getElementById("message")
+                                    .insertAdjacentHTML(
+                                        "afterbegin",
+                                        \`<div class="line gift-gold">感谢 \${medal(element.data.medal_info, "enter")}\${
+            element.data.uname
+        } \${element.data.action}的 \${element.data.num} × \${element.data.giftName}</div>\`
+                                    );
+                            }
                         } else {
                             // 银瓜子礼物
-                            document
-                                .getElementById("message")
-                                .insertAdjacentHTML(
-                                    "afterbegin",
-                                    \`<div class="line gift-silver">\${medal(
-                                        element.data.medal_info,
-                                        "enter"
-                                    )}<span class="usr">\${element.data.uname}: </span><span class="msg">\${
-        element.data.num
-    } × \${element.data.giftName}</span></div>\`
-                                );
+                            if (${config.gift.silver.show ? `true` : `false`}) {
+                                document
+                                    .getElementById("message")
+                                    .insertAdjacentHTML(
+                                        "afterbegin",
+                                        \`<div class="line gift-silver">\${medal(
+                                            element.data.medal_info,
+                                            "enter"
+                                        )}<span class="usr">\${element.data.uname}: </span><span class="msg">\${
+            element.data.num
+        } × \${element.data.giftName}</span></div>\`
+                                    );
+                            }
                         }
                     } else if (element.cmd == "ONLINE_RANK_V2") {
                         online_rank = element.data.list;
