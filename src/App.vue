@@ -116,6 +116,10 @@ export default {
                   <el-input v-model="config.general.font.family"></el-input>
                 </el-col>
               </el-row>
+              <br>
+              <el-button type="info" plain style="float: right;" @click="(config = default_config, set_config())">
+                恢复默认设置
+              </el-button>
             </el-tab-pane>
             <el-tab-pane label="弹幕" class="tab-content">
               <p class="title">行间距</p>
