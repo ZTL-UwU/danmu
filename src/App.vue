@@ -4,9 +4,8 @@ import Preview from './components/Preview.vue';
 export default {
   data() {
     return {
-      config_str: JSON.stringify(this.config),
       preview_bg: "rgba(55, 55, 55, 1)",
-      config: {
+      default_config: {
         "general": {
           "room_id": 0,
           "background": {
@@ -24,11 +23,13 @@ export default {
           "show_medal": true,
           "rank": {
             "show": true,
-            "color": "rgb(230, 93, 14)"
+            "bg": "rgb(230, 93, 14)",
+            "fg": "#ffffff",
           },
           "admin": {
             "show": true,
             "color": "rgb(219, 135, 0)",
+            "size": "11px",
           },
           "username": {
             "color": "rgb(117, 122, 129)",
@@ -64,13 +65,20 @@ export default {
           "js": "",
         }
       },
+      config: "",
+      config_str: "",
     };
   },
   methods: {
     set_config() {
       this.config_str = JSON.stringify(this.config);
-      console.log(JSON.stringify(this.config));
+      this.$store.commit('update', { config: this.config_str });
     }
+  },
+  beforeMount() {
+    this.config_str = this.$store.state.usr_config;
+    this.config = this.config_str == '' ? this.default_config : JSON.parse(this.config_str);
+    this.config_str = JSON.stringify(this.config);
   },
   components: {
     Preview,
@@ -82,7 +90,7 @@ export default {
   <main>
     <el-row :gutter="20">
       <el-col :span="16">
-        <el-card style="position: relative;">
+        <el-card class="card-holder">
           <el-tabs tab-position="left">
             <el-tab-pane label="常规" class="tab-content">
               <p class="title">房间号</p>
@@ -158,19 +166,34 @@ export default {
                   <el-color-picker v-model="config.danmu.admin.color" show-alpha />
                 </el-col>
               </el-row>
+              <p class="subtitle">大小</p>
+              <el-row :gutter="10">
+                <el-col :span="18">
+                  <el-input v-model="config.danmu.admin.size"></el-input>
+                </el-col>
+              </el-row>
 
               <p class="title">高能榜标识</p>
               <p class="subtitle">显示
                 <el-switch v-model="config.danmu.rank.show" size="small"
                   style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949" />
               </p>
-              <p class="subtitle">颜色</p>
+              <p class="subtitle">背景颜色</p>
               <el-row :gutter="10">
                 <el-col :span="18">
-                  <el-input v-model="config.danmu.rank.color"></el-input>
+                  <el-input v-model="config.danmu.rank.bg"></el-input>
                 </el-col>
                 <el-col :span="6">
-                  <el-color-picker v-model="config.danmu.rank.color" show-alpha />
+                  <el-color-picker v-model="config.danmu.rank.bg" show-alpha />
+                </el-col>
+              </el-row>
+              <p class="subtitle">字体颜色</p>
+              <el-row :gutter="10">
+                <el-col :span="18">
+                  <el-input v-model="config.danmu.rank.fg"></el-input>
+                </el-col>
+                <el-col :span="6">
+                  <el-color-picker v-model="config.danmu.rank.fg" show-alpha />
                 </el-col>
               </el-row>
 
@@ -358,5 +381,9 @@ main {
 
 .code-input {
   font-family: monospace;
+}
+
+.card-holder {
+  position: relative;
 }
 </style>

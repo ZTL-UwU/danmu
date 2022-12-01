@@ -1,73 +1,14 @@
 <template>
-  <iframe id="frame" src="template.html" class="preview-frame"></iframe>
+  <iframe id="frame" :src="blob_url" class="preview-frame"></iframe>
 </template>
 
 <script>
+import { generate_html } from '../scripts/template';
 export default {
   data() {
     return {
       blob: undefined,
-    }
-  },
-  methods: {
-    generate_css(config) {
-      return `body {
-        font-family: ${config.general.font.family};
-        font-size: ${config.general.font.size};
-        font-weight: ${config.general.font.weight};
-        color: ${config.general.font.color};
-        background-color: ${config.general.background.color};
-      }
-      
-      .usr {
-        color: ${config.danmu.username.color};
-        font-size: ${config.danmu.username.size};
-        font-weight: ${config.danmu.username.weight};
-      }
-
-      .msg {
-        color: ${config.danmu.content.color};
-        font-size: ${config.danmu.content.size};
-        font-weight: ${config.danmu.content.weight};
-      }
-
-      .admin {
-        ${config.danmu.admin.show ? '' : 'display: none;'}
-        color: ${config.danmu.admin.color};
-        border: 1px solid ${config.danmu.admin.color};
-      }
-
-      .rank {
-        ${config.danmu.rank.show ? '' : 'display: none;'}
-        background: ${config.danmu.rank.color};
-        border: 1px solid ${config.danmu.rank.color};
-      }
-
-      .line {
-        margin-top: ${config.danmu.line_margin};
-        margin-bottom: ${config.danmu.line_margin};
-      }
-
-      .enter {
-        ${config.enter.show ? '' : 'display: none;'}
-        color: ${config.enter.color};
-        font-size: ${config.enter.size};
-        font-weight: ${config.enter.weight};
-      }
-
-      .gift-gold {
-        ${config.gift.gold.show ? '' : 'display: none;'}
-        color: ${config.gift.gold.color};
-        font-weight: ${config.gift.gold.weight};
-        font-size: ${config.gift.gold.size};
-      }
-
-      .gift-silver {
-        ${config.gift.silver.show ? '' : 'display: none;'}
-      }
-
-      ${config.extra.css}
-      `;
+      blob_url: '',
     }
   },
   props: {
@@ -75,23 +16,16 @@ export default {
   },
   watch: {
     config(new_config) {
-      this.blob = new Blob([`${this.generate_css(JSON.parse(new_config))}`], { type: 'text/css' });
       const frame = document.getElementById('frame');
-      const doc = frame.contentWindow.document;
-      const head = doc.getElementsByTagName('head')
-
-      if (doc.getElementsByTagName('link').length === 0) {
-        const linkTag = document.createElement('link');
-        linkTag.href = `${URL.createObjectURL(this.blob)}`;
-        linkTag.setAttribute('rel', 'stylesheet');
-        linkTag.setAttribute('type', 'text/css');
-        head[0].append(linkTag);
-      } else {
-        const link = doc.getElementsByTagName('link');
-        link[0].href = `${URL.createObjectURL(this.blob)}`;
-      }
+      this.blob = new Blob([generate_html(JSON.parse(new_config))], { type: 'text/html' });
+      this.blob_url = URL.createObjectURL(this.blob);
+      frame.src = this.blob_url;
     }
   },
+  beforeMount() {
+    this.blob = new Blob([generate_html(JSON.parse(this.config))], { type: 'text/html' });
+    this.blob_url = URL.createObjectURL(this.blob);
+  }
 }
 </script>
 

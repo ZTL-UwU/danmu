@@ -1,3 +1,127 @@
+function generate_css(config) {
+    return `
+body {
+    font-family: ${config.general.font.family};
+    font-size: ${config.general.font.size};
+    font-weight: ${config.general.font.weight};
+    color: ${config.general.font.color};
+    background-color: ${config.general.background.color};
+    position: relative;
+}
+
+#message {
+    width: 100%;
+    height: calc(100vh - 40px);
+    overflow-y: hidden;
+}
+
+#message:hover,
+#enter:hover {
+    outline: 4px solid red;
+}
+
+.usr {
+    color: ${config.danmu.username.color};
+    font-size: ${config.danmu.username.size};
+    font-weight: ${config.danmu.username.weight};
+}
+
+.msg {
+    padding-left: 3px;
+    color: ${config.danmu.content.color};
+    font-size: ${config.danmu.content.size};
+    font-weight: ${config.danmu.content.weight};
+}
+
+.admin {
+    ${config.danmu.admin.show ? "" : "display: none;"}
+    color: ${config.danmu.admin.color};
+    border: 1px solid ${config.danmu.admin.color};
+    font-size: ${config.danmu.admin.size};
+
+    padding: 0 2px;
+    height: 14px;
+    border-radius: 2px;
+    line-height: 14px;
+    margin-right: 4px;
+}
+
+.rank {
+    ${config.danmu.rank.show ? "" : "display: none;"}
+    background: ${config.danmu.rank.bg};
+    border: 1px solid ${config.danmu.rank.bg};
+    color: ${config.danmu.rank.fg};
+
+    padding: 0 2px;
+    height: 14px;
+    border-radius: 2px;
+    line-height: 14px;
+    font-size: 11px;
+    margin-right: 4px;
+}
+
+.line {
+    margin-top: ${config.danmu.line_margin};
+    margin-bottom: ${config.danmu.line_margin};
+}
+
+.enter {
+    ${config.enter.show ? "" : "display: none;"}
+    color: ${config.enter.color};
+    font-size: ${config.enter.size};
+    font-weight: ${config.enter.weight};
+}
+
+#enter {
+    width: calc(100% - 16px);
+}
+
+.gift-gold {
+    ${config.gift.gold.show ? "" : "display: none;"}
+    color: ${config.gift.gold.color};
+    font-weight: ${config.gift.gold.weight};
+    font-size: ${config.gift.gold.size};
+}
+
+.gift-silver {
+    ${config.gift.silver.show ? "" : "display: none;"}
+}
+
+.enter-container {
+    margin-bottom: 8px;
+    position: fixed;
+    bottom: 0;
+}
+
+.medal {
+    display: inline-block;
+    font-size: 10px;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    margin-right: 4px;
+    line-height: 14px;
+}
+
+.medal-label,
+.medal-level {
+    justify-content: center;
+    align-items: center;
+    min-width: 12px;
+    padding: 0 3px;
+    color: #fff;
+    border-radius: 1px;
+
+    box-sizing: content-box;
+    height: 100%;
+    text-align: center;
+}
+
+${config.extra.css}
+`;
+}
+
+export function generate_html(config) {
+    return `
 <!DOCTYPE html>
 <html>
     <head>
@@ -6,102 +130,7 @@
         <title>danmu</title>
 
         <style type="text/css">
-            body {
-                margin-top: 8px;
-                font-family: "Microsoft YaHei", "Microsoft Sans Serif", "Microsoft SanSerf", "微软雅黑";
-                font-size: 14px;
-                color: #fefefe;
-                position: relative;
-            }
-
-            #message {
-                width: 100%;
-                height: calc(100vh - 40px);
-                overflow-y: hidden;
-            }
-
-            #message:hover,
-            #enter:hover {
-                outline: 4px solid red;
-            }
-
-            .usr {
-                color: rgb(117, 122, 129);
-            }
-
-            .msg {
-                padding-left: 3px;
-            }
-
-            .enter {
-                color: rgb(117, 122, 129);
-                font-size: 14px;
-            }
-
-            #enter {
-                width: calc(100% - 16px);
-            }
-
-            .gift-gold {
-                color: #edd400;
-            }
-
-            .enter-container {
-                margin-bottom: 8px;
-                position: fixed;
-                bottom: 0;
-            }
-
-            .medal {
-                display: inline-block;
-                font-size: 11px;
-                border: 1px solid transparent;
-                border-radius: 2px;
-                margin-right: 4px;
-                line-height: 14px;
-            }
-
-            .medal-label,
-            .medal-level {
-                justify-content: center;
-                align-items: center;
-                min-width: 12px;
-                padding: 0 3px;
-                color: #fff;
-                border-radius: 1px;
-
-                box-sizing: content-box;
-                height: 100%;
-                text-align: center;
-            }
-
-            .line {
-                margin-top: 2px;
-                margin-bottom: 2px;
-            }
-
-            .admin {
-                padding: 0 2px;
-                height: 14px;
-                color: rgb(219, 135, 0);
-                border: 1px solid rgb(219, 135, 0);
-                border-radius: 2px;
-                line-height: 14px;
-                font-size: 11px;
-                margin-right: 4px;
-            }
-
-            .rank {
-                padding: 0 2px;
-                height: 14px;
-                background: rgb(230, 93, 14);
-                color: #fff;
-                border: 1px solid rgb(230, 93, 14);
-                border-radius: 2px;
-                line-height: 14px;
-                font-size: 11px;
-                margin-right: 4px;
-            }
+            ${generate_css(config)}
         </style>
     </head>
 
@@ -111,10 +140,11 @@
     </body>
 </html>
 
+<script src="https://cdn.bootcdn.net/ajax/libs/pako/0.1.0/pako.min.js"></script>
 <script type="text/javascript">
     var ws = new WebSocket("wss://broadcastlv.chat.bilibili.com/sub");
 
-    var room_id = 13398143;
+    var room_id = ${config.general.room_id};
     var timer;
     var json = {
         uid: 0,
@@ -123,6 +153,8 @@
         platform: "web",
         clientver: "1.4.0",
     };
+
+    ${config.extra.js}
 
     function getCertification(json) {
         var bytes = str2bytes(json);
@@ -180,10 +212,16 @@
         if (data.length != 0) {
             if (type == "msg" && data[11]) {
                 let color = parseInt(data[4]).toString(16);
-                return `<span class="medal" style="background-color: #${color};"><span class="medal-label" style="color: #FFFFFF;">${data[1]}</span><span class="medal-level" style="color: #${color}; background-color: #FFFFFF;">${data[0]}</span></span>`;
+                return \`<span class="medal" style="background-color: #\${color};"><span class="medal-label" style="color: #FFFFFF;">\${
+        data[1]
+    }</span><span class="medal-level" style="color: #\${color}; background-color: #FFFFFF;">\${data[0]}</span></span>\`;
             } else if (type == "enter" && data.is_lighted) {
                 let color = parseInt(data.medal_color).toString(16);
-                return `<span class="medal" style="background-color: #${color};"><span class="medal-label" style="color: #FFFFFF;">${data.medal_name}</span><span class="medal-level" style="color: #${color}; background-color: #FFFFFF;">${data.medal_level}</span></span>`;
+                return \`<span class="medal" style="background-color: #\${color};"><span class="medal-label" style="color: #FFFFFF;">\${
+        data.medal_name
+    }</span><span class="medal-level" style="color: #\${color}; background-color: #FFFFFF;">\${
+        data.medal_level
+    }</span></span>\`;
             }
         }
 
@@ -192,7 +230,7 @@
 
     function admin(is_admin) {
         if (is_admin) {
-            return `<span class="admin">房</span>`;
+            return \`<span class="admin">房</span>\`;
         }
 
         return "";
@@ -200,7 +238,7 @@
 
     function rank_icon(rank) {
         if (rank >= 1 && rank <= 3) {
-            return `<span class="rank">榜${rank}</span>`;
+            return \`<span class="rank">榜\${rank}</span>\`;
         }
 
         return "";
@@ -226,25 +264,25 @@
                     var element = packet.body[i];
                     console.log(element);
 
-                    if (element.cmd == "DANMU_MSG") {
+                    if (element.cmd.indexOf("DANMU_MSG") !== -1) {
                         // 弹幕
                         document
                             .getElementById("message")
                             .insertAdjacentHTML(
                                 "afterbegin",
-                                `<div class="line">${rank_icon(get_rank(element.info[2][0]))}${medal(
-                                    element.info[3],
-                                    "msg"
-                                )}${admin(element.info[2][2])}<span class="usr">${
-                                    element.info[2][1]
-                                }: </span><span class="msg">${element.info[1]}</span></div>`
+                                \`<div class="line">\${rank_icon(get_rank(element.info[2][0]))}\${medal(
+        element.info[3],
+        "msg"
+    )}\${admin(element.info[2][2])}<span class="usr">\${element.info[2][1]}: </span><span class="msg">\${
+        element.info[1]
+    }</span></div>\`
                             );
                     } else if (element.cmd == "INTERACT_WORD") {
                         // 进入直播间
-                        document.getElementById("enter").innerHTML = `<div><span class="enter">${medal(
+                        document.getElementById("enter").innerHTML = \`<div><span class="enter">\${medal(
                             element.data.fans_medal,
                             "enter"
-                        )}${element.data.uname} 进入直播间</span></div>`;
+                        )}\${element.data.uname} 进入直播间</span></div>\`;
                     } else if (element.cmd == "SEND_GIFT") {
                         // 礼物
                         if (element.data.coin_type == "gold") {
@@ -253,9 +291,9 @@
                                 .getElementById("message")
                                 .insertAdjacentHTML(
                                     "afterbegin",
-                                    `<div class="line gift-gold">感谢 ${medal(element.data.medal_info, "enter")}${
-                                        element.data.uname
-                                    } ${element.data.action}的 ${element.data.num} × ${element.data.giftName}</div>`
+                                    \`<div class="line gift-gold">感谢 \${medal(element.data.medal_info, "enter")}\${
+        element.data.uname
+    } \${element.data.action}的 \${element.data.num} × \${element.data.giftName}</div>\`
                                 );
                         } else {
                             // 银瓜子礼物
@@ -263,12 +301,12 @@
                                 .getElementById("message")
                                 .insertAdjacentHTML(
                                     "afterbegin",
-                                    `<div class="line gift-silver">${medal(
+                                    \`<div class="line gift-silver">\${medal(
                                         element.data.medal_info,
                                         "enter"
-                                    )}<span class="usr">${element.data.uname}: </span><span class="msg">${
-                                        element.data.num
-                                    } × ${element.data.giftName}</span></div>`
+                                    )}<span class="usr">\${element.data.uname}: </span><span class="msg">\${
+        element.data.num
+    } × \${element.data.giftName}</span></div>\`
                                 );
                         }
                     } else if (element.cmd == "ONLINE_RANK_V2") {
@@ -313,7 +351,7 @@
                         body = textDecoder.decode(data);
                     }
                     if (body) {
-                        const group = body.split(/[\x00-\x1f]+/);
+                        const group = body.split(/[\\x00-\\x1f]+/);
                         group.forEach((item) => {
                             try {
                                 result.body.push(JSON.parse(item));
@@ -328,3 +366,5 @@
         reader.readAsArrayBuffer(blob);
     }
 </script>
+`;
+}
