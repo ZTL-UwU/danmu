@@ -1,5 +1,6 @@
 <template>
   <iframe id="frame" :src="blob_url" class="preview-frame"></iframe>
+  <el-button style="width: 100%;" type="success" @click="download()">下载</el-button>
 </template>
 
 <script>
@@ -13,6 +14,16 @@ export default {
   },
   props: {
     config: String,
+  },
+  methods: {
+    download() {
+      const aLink = document.createElement('a');
+      aLink.href = this.blob_url;
+      aLink.setAttribute('download', 'danmu.html');
+      document.body.appendChild(aLink);
+      aLink.click();
+      document.body.removeChild(aLink);
+    }
   },
   watch: {
     config(new_config) {

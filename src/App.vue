@@ -67,6 +67,7 @@ export default {
       },
       config: "",
       config_str: "",
+      config_format_str: ""
     };
   },
   methods: {
@@ -79,6 +80,7 @@ export default {
     this.config_str = this.$store.state.usr_config;
     this.config = this.config_str == '' ? this.default_config : JSON.parse(this.config_str);
     this.config_str = JSON.stringify(this.config);
+    this.config_format_str = JSON.stringify(this.config, null, 4);
   },
   components: {
     Preview,
@@ -320,6 +322,9 @@ export default {
                 placeholder="Please input" />
               <p class="title">自定义 JS</p>
               <el-input v-model="config.extra.js" :rows="4" type="textarea" class="code-input"
+                placeholder="Please input" />
+              <p class="title">当前设置（只读）</p>
+              <el-input v-model="config_format_str" :rows="10" disabled type="textarea" class="code-input"
                 placeholder="Please input" />
             </el-tab-pane>
             <el-tab-pane label="预览设置" class="tab-content">

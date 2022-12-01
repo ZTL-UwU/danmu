@@ -366,5 +366,9 @@ export function generate_html(config) {
         reader.readAsArrayBuffer(blob);
     }
 </script>
+
+<!-- CONFIG
+${JSON.stringify(config, null, 4)}
+-->
 `;
 }
