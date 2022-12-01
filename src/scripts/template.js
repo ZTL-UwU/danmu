@@ -270,16 +270,16 @@ export function generate_html(config) {
                             .getElementById("message")
                             .insertAdjacentHTML(
                                 "afterbegin",
-                                \`<div class="line">${config.danmu.rank.show ? '' : `\${rank_icon(get_rank(element.info[2][0]))}`}${config.danmu.show_medal ? '' : `\${medal(
+                                \`<div class="line">${!config.danmu.rank.show ? '' : `\${rank_icon(get_rank(element.info[2][0]))}`}${!config.danmu.show_medal ? '' : `\${medal(
         element.info[3],
         "msg"
-    )}`}${config.danmu.admin.show ? '' : `\${admin(element.info[2][2])}`}<span class="usr">\${element.info[2][1]}: </span><span class="msg">\${
+    )}`}${!config.danmu.admin.show ? '' : `\${admin(element.info[2][2])}`}<span class="usr">\${element.info[2][1]}: </span><span class="msg">\${
         element.info[1]
     }</span></div>\`
                             );
                     } else if (element.cmd == "INTERACT_WORD") {
                         // 进入直播间
-                        document.getElementById("enter").innerHTML = \`<div><span class="enter">${config.enter.show_medal ? '' : `\${medal(
+                        document.getElementById("enter").innerHTML = \`<div><span class="enter">${!config.enter.show_medal ? '' : `\${medal(
                             element.data.fans_medal,
                             "enter"
                         )}`}\${element.data.uname} 进入直播间</span></div>\`;
