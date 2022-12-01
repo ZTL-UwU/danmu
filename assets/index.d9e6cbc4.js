@@ -318,19 +318,19 @@ ${e.extra.css}
                             .getElementById("message")
                             .insertAdjacentHTML(
                                 "afterbegin",
-                                \`<div class="line">${e.danmu.rank.show?"":"${rank_icon(get_rank(element.info[2][0]))}"}${e.danmu.show_medal?"":`\${medal(
+                                \`<div class="line">${e.danmu.rank.show?"${rank_icon(get_rank(element.info[2][0]))}":""}${e.danmu.show_medal?`\${medal(
         element.info[3],
         "msg"
-    )}`}${e.danmu.admin.show?"":"${admin(element.info[2][2])}"}<span class="usr">\${element.info[2][1]}: </span><span class="msg">\${
+    )}`:""}${e.danmu.admin.show?"${admin(element.info[2][2])}":""}<span class="usr">\${element.info[2][1]}: </span><span class="msg">\${
         element.info[1]
     }</span></div>\`
                             );
                     } else if (element.cmd == "INTERACT_WORD") {
                         // \u8FDB\u5165\u76F4\u64AD\u95F4
-                        document.getElementById("enter").innerHTML = \`<div><span class="enter">${e.enter.show_medal?"":`\${medal(
+                        document.getElementById("enter").innerHTML = \`<div><span class="enter">${e.enter.show_medal?`\${medal(
                             element.data.fans_medal,
                             "enter"
-                        )}`}\${element.data.uname} \u8FDB\u5165\u76F4\u64AD\u95F4</span></div>\`;
+                        )}`:""}\${element.data.uname} \u8FDB\u5165\u76F4\u64AD\u95F4</span></div>\`;
                     } else if (element.cmd == "SEND_GIFT") {
                         // \u793C\u7269
                         if (element.data.coin_type == "gold") {
