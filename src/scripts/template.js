@@ -15,9 +15,14 @@ body {
     overflow-y: hidden;
 }
 
-#message:hover,
-#enter:hover {
-    outline: 4px solid red;
+${
+    config.extra.hover_outline
+        ? `
+    #message:hover,
+    #enter:hover {
+        outline: 4px solid red;
+    }`
+        : ""
 }
 
 .usr {
@@ -270,19 +275,31 @@ export function generate_html(config) {
                             .getElementById("message")
                             .insertAdjacentHTML(
                                 "afterbegin",
-                                \`<div class="line">${!config.danmu.rank.show ? '' : `\${rank_icon(get_rank(element.info[2][0]))}`}${!config.danmu.show_medal ? '' : `\${medal(
+                                \`<div class="line">${
+                                    !config.danmu.rank.show ? "" : `\${rank_icon(get_rank(element.info[2][0]))}`
+                                }${
+        !config.danmu.show_medal
+            ? ""
+            : `\${medal(
         element.info[3],
         "msg"
-    )}`}${!config.danmu.admin.show ? '' : `\${admin(element.info[2][2])}`}<span class="usr">\${element.info[2][1]}: </span><span class="msg">\${
+    )}`
+    }${
+        !config.danmu.admin.show ? "" : `\${admin(element.info[2][2])}`
+    }<span class="usr">\${element.info[2][1]}: </span><span class="msg">\${
         element.info[1]
     }</span></div>\`
                             );
                     } else if (element.cmd == "INTERACT_WORD") {
                         // 进入直播间
-                        document.getElementById("enter").innerHTML = \`<div><span class="enter">${!config.enter.show_medal ? '' : `\${medal(
+                        document.getElementById("enter").innerHTML = \`<div><span class="enter">${
+                            !config.enter.show_medal
+                                ? ""
+                                : `\${medal(
                             element.data.fans_medal,
                             "enter"
-                        )}`}\${element.data.uname} 进入直播间</span></div>\`;
+                        )}`
+                        }\${element.data.uname} 进入直播间</span></div>\`;
                     } else if (element.cmd == "SEND_GIFT") {
                         // 礼物
                         if (element.data.coin_type == "gold") {
@@ -374,5 +391,88 @@ export function generate_html(config) {
 <!-- CONFIG
 ${JSON.stringify(config, null, 4)}
 -->
+`;
+}
+
+export function generate_preview_html(config) {
+    return `
+    <!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>danmu</title>
+
+        <style type="text/css">
+            ${generate_css(config)}
+        </style>
+    </head>
+
+    <body>
+        <div id="message">
+            <div class="line">
+                <span class="rank">榜1</span><span class="usr">ZTL-UwU: </span><span class="msg">这里是预览</span>
+            </div>
+            <div class="line">
+                <span class="rank">榜2</span
+                >${
+                    !config.danmu.show_medal
+                        ? ""
+                        : `<span class="medal" style="background-color: #2d0855"
+                    ><span class="medal-label" style="color: #ffffff">粉丝牌</span
+                    ><span class="medal-level" style="color: #2d0855; background-color: #ffffff">29</span></span
+                >`
+                }<span class="admin">房</span><span class="usr">大老板: </span><span class="msg">这是一条弹幕</span>
+            </div>
+            <div class="line">
+                ${
+                    !config.danmu.show_medal
+                        ? ""
+                        : `<span class="medal" style="background-color: #1a544b"
+                    ><span class="medal-label" style="color: #ffffff">粉丝牌</span
+                    ><span class="medal-level" style="color: #1a544b; background-color: #ffffff">21</span></span
+                >`
+                }<span class="usr">老板: </span><span class="msg">不是房管捏</span>
+            </div>
+            <div class="line"><span class="usr">平平无奇的人: </span><span class="msg">一条平平无奇的弹幕</span></div>
+            <div class="line gift-silver">
+                ${
+                    !config.danmu.show_medal
+                        ? ""
+                        : `<span class="medal" style="background-color: #8d7ca6"
+                    ><span class="medal-label" style="color: #ffffff">粉丝牌</span
+                    ><span class="medal-level" style="color: #8d7ca6; background-color: #ffffff">9</span></span
+                >`
+                }<span class="usr">银瓜子: </span><span class="msg">1 × PK票</span>
+            </div>
+            <div class="line"><span class="usr">waiguoren: </span><span class="msg">Danmu</span></div>
+            <div class="line gift-gold">
+                感谢 
+                ${
+                    !config.danmu.show_medal
+                        ? ""
+                        : `<span class="medal" style="background-color: #8d7ca6"
+                    ><span class="medal-label" style="color: #ffffff">粉丝牌</span
+                    ><span class="medal-level" style="color: #8d7ca6; background-color: #ffffff">11</span></span
+                >`
+                }某某某丶 投喂的 1 × 牛哇牛哇
+            </div>
+        </div>
+        <div id="enter" class="enter-container">
+            <div>
+                <span class="enter"
+                    >${
+                        !config.enter.show_medal
+                            ? ""
+                            : `<span class="medal" style="background-color: #2d0855"
+                        ><span class="medal-label" style="color: #ffffff">粉丝牌</span
+                        ><span class="medal-level" style="color: #2d0855; background-color: #ffffff">29</span></span
+                    >`
+                    }大老板 进入直播间</span
+                >
+            </div>
+        </div>
+    </body>
+</html>
 `;
 }

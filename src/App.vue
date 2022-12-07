@@ -16,7 +16,7 @@ export default {
           }
         },
         "danmu": {
-          "line_margin": "2px",
+          "line_margin": "8px",
           "show_medal": true,
           "rank": {
             "show": true,
@@ -61,6 +61,7 @@ export default {
         "extra": {
           "css": "",
           "js": "",
+          "hover_outline": true,
         }
       },
       config: "",
@@ -303,6 +304,10 @@ export default {
               <p class="title">自定义 JS</p>
               <el-input v-model="config.extra.js" :rows="4" type="textarea" class="code-input"
                 placeholder="Please input" />
+              <p class="subtitle">开启定位框
+                <el-switch v-model="config.extra.hover_outline" size="small"
+                  style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949" />
+              </p>
               <p class="title">当前设置（只读）</p>
               <el-input v-model="config_format_str" :rows="10" disabled type="textarea" class="code-input"
                 placeholder="Please input" />
