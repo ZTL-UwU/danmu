@@ -66,7 +66,6 @@ ${
 }
 
 .line {
-    margin-top: ${config.danmu.line_margin};
     margin-bottom: ${config.danmu.line_margin};
 }
 

@@ -1,6 +1,13 @@
 <template>
-  <iframe id="frame" :src="blob_url" class="preview-frame"></iframe>
-  <el-button style="width: 100%;" type="success" @click="download()">下载</el-button>
+  <el-tabs type="border-card" :style="`background-color: ${color};`">
+    <el-tab-pane label="样式预览">
+      <iframe id="frame" :src="blob_url" class="preview-frame"></iframe>
+    </el-tab-pane>
+    <el-tab-pane label="真实预览">
+      <iframe id="frame" :src="blob_download_url" class="preview-frame"></iframe>
+    </el-tab-pane>
+    <el-button style="width: 100%;" type="success" @click="download()">下载</el-button>
+  </el-tabs>
 </template>
 
 <script>
@@ -16,6 +23,7 @@ export default {
   },
   props: {
     config: String,
+    color: String,
   },
   methods: {
     download() {

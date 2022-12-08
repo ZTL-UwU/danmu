@@ -330,9 +330,7 @@ export default {
         </el-card>
       </el-col>
       <el-col :span="8">
-        <el-card :style="`background: ${preview_bg}; border: none;`">
-          <Preview :config="config_str"></Preview>
-        </el-card>
+        <Preview :config="config_str" :color="preview_bg"></Preview>
       </el-col>
     </el-row>
   </main>
