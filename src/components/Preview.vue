@@ -1,5 +1,5 @@
 <template>
-  <el-tabs type="border-card" :style="`background-color: ${color};`">
+  <el-tabs type="border-card" :style="`background-color: ${color};`" class="tab">
     <el-tab-pane label="样式预览">
       <iframe id="frame" :src="blob_url" class="preview-frame"></iframe>
     </el-tab-pane>
@@ -59,5 +59,9 @@ export default {
   height: 500px;
   width: 310px;
   border: none;
+}
+
+.tab {
+  box-shadow: var(--el-box-shadow-light);
 }
 </style>

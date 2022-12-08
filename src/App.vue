@@ -56,7 +56,6 @@ export default {
           },
           silver: {
             show: true,
-            weight: 500,
           }
         },
         extra: {
@@ -105,7 +104,7 @@ export default {
               <p class="title">方向</p>
               <el-row :gutter="10">
                 <el-col :span="18">
-                  <el-switch v-model="config.general.flip" size="large" active-text="由下往下" inactive-text="由上往下" />
+                  <el-switch v-model="config.general.flip" size="large" active-text="由下往上" inactive-text="由上往下" />
                 </el-col>
               </el-row>
 
@@ -298,12 +297,6 @@ export default {
                 <el-switch v-model="config.gift.silver.show" size="small"
                   style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949" />
               </p>
-              <p class="subtitle">粗细</p>
-              <el-row :gutter="10">
-                <el-col :span="18">
-                  <el-input v-model="config.gift.silver.weight"></el-input>
-                </el-col>
-              </el-row>
             </el-tab-pane>
             <el-tab-pane label="高级" class="tab-content">
               <p class="title">自定义 CSS</p>
