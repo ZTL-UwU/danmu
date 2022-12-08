@@ -6,62 +6,63 @@ export default {
     return {
       preview_bg: "rgba(55, 55, 55, 1)",
       default_config: {
-        "general": {
-          "room_id": 0,
-          "background": {
-            "color": "#00000000",
+        general: {
+          room_id: 0,
+          background: {
+            color: "#00000000",
           },
-          "font": {
-            "family": '"Microsoft YaHei", "Microsoft Sans Serif", "Microsoft SanSerf", "微软雅黑"',
+          font: {
+            family: '"Microsoft YaHei", "Microsoft Sans Serif", "Microsoft SanSerf", "微软雅黑"',
+          },
+          flip: false,
+        },
+        danmu: {
+          line_margin: "8px",
+          show_medal: true,
+          rank: {
+            show: true,
+            bg: "rgb(230, 93, 14)",
+            fg: "#ffffff",
+          },
+          admin: {
+            show: true,
+            color: "rgb(219, 135, 0)",
+            size: "11px",
+          },
+          username: {
+            color: "rgb(117, 122, 129)",
+            size: "14px",
+            weight: 500,
+          },
+          content: {
+            color: "#fefefe",
+            size: "14px",
+            weight: 500,
           }
         },
-        "danmu": {
-          "line_margin": "8px",
-          "show_medal": true,
-          "rank": {
-            "show": true,
-            "bg": "rgb(230, 93, 14)",
-            "fg": "#ffffff",
+        enter: {
+          show: true,
+          color: "rgb(117, 122, 129)",
+          size: "14px",
+          weight: 500,
+          show_medal: true,
+        },
+        gift: {
+          gold: {
+            weight: 500,
+            show: true,
+            size: "14px",
+            color: "#edd400",
           },
-          "admin": {
-            "show": true,
-            "color": "rgb(219, 135, 0)",
-            "size": "11px",
-          },
-          "username": {
-            "color": "rgb(117, 122, 129)",
-            "size": "14px",
-            "weight": 500,
-          },
-          "content": {
-            "color": "#fefefe",
-            "size": "14px",
-            "weight": 500,
+          silver: {
+            show: true,
+            weight: 500,
           }
         },
-        "enter": {
-          "show": true,
-          "color": "rgb(117, 122, 129)",
-          "size": "14px",
-          "weight": 500,
-          "show_medal": true,
-        },
-        "gift": {
-          "gold": {
-            "weight": 500,
-            "show": true,
-            "size": "14px",
-            "color": "#edd400",
-          },
-          "silver": {
-            "show": true,
-            "weight": 500,
-          }
-        },
-        "extra": {
-          "css": "",
-          "js": "",
-          "hover_outline": true,
+        extra: {
+          css: "",
+          js: "",
+          hover_outline: true,
         }
       },
       config: "",
@@ -98,6 +99,13 @@ export default {
               <el-row :gutter="10">
                 <el-col :span="18">
                   <el-input v-model="config.general.room_id"></el-input>
+                </el-col>
+              </el-row>
+
+              <p class="title">方向</p>
+              <el-row :gutter="10">
+                <el-col :span="18">
+                  <el-switch v-model="config.general.flip" size="large" active-text="由下往下" inactive-text="由上往下" />
                 </el-col>
               </el-row>
 
@@ -338,6 +346,7 @@ export default {
 
 <style scoped>
 main {
+  font-family: "Microsoft YaHei", "Microsoft Sans Serif", "Microsoft SanSerf", "微软雅黑";
   max-width: 1100px;
   margin-left: auto;
   margin-right: auto;

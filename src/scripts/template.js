@@ -11,7 +11,9 @@ body {
 
 #message {
     width: 100%;
-    height: calc(100vh - 40px);
+    ${config.general.flip ? '' : 'height: calc(100vh - 40px);' }
+    ${config.general.flip ? 'position: absolute;' : '' }
+    ${config.general.flip ? 'bottom: calc(-100vh + 40px);' : '' }
     overflow-y: hidden;
 }
 
@@ -273,7 +275,7 @@ export function generate_html(config) {
                         document
                             .getElementById("message")
                             .insertAdjacentHTML(
-                                "afterbegin",
+                                "${config.general.flip ? 'beforeend' : 'afterbegin'}",
                                 \`<div class="line">${
                                     !config.danmu.rank.show ? "" : `\${rank_icon(get_rank(element.info[2][0]))}`
                                 }${
@@ -307,7 +309,7 @@ export function generate_html(config) {
                                 document
                                     .getElementById("message")
                                     .insertAdjacentHTML(
-                                        "afterbegin",
+                                        "${config.general.flip ? 'beforeend' : 'afterbegin'}",
                                         \`<div class="line gift-gold">感谢 \${medal(element.data.medal_info, "enter")}\${
             element.data.uname
         } \${element.data.action}的 \${element.data.num} × \${element.data.giftName}</div>\`
@@ -319,7 +321,7 @@ export function generate_html(config) {
                                 document
                                     .getElementById("message")
                                     .insertAdjacentHTML(
-                                        "afterbegin",
+                                        "${config.general.flip ? 'beforeend' : 'afterbegin'}",
                                         \`<div class="line gift-silver">\${medal(
                                             element.data.medal_info,
                                             "enter"
