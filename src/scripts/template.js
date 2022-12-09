@@ -198,6 +198,15 @@ export function generate_html(config) {
         return bytes;
     }
 
+    function process_color(dec) {
+        let color = parseInt(dec).toString(16);
+        while (color.length < 6) {
+            color += 'f';
+        }
+
+        return '#' + color;
+    }
+
     ws.onopen = function () {
         console.log("WebSocket 已连接上");
         ws.send(getCertification(JSON.stringify(json)).buffer);
@@ -217,15 +226,15 @@ export function generate_html(config) {
     function medal(data, type) {
         if (data.length != 0) {
             if (type == "msg" && data[11]) {
-                let color = parseInt(data[4]).toString(16);
-                return \`<span class="medal" style="background-color: #\${color};"><span class="medal-label" style="color: #FFFFFF;">\${
+                let color = process_color(data[4]);
+                return \`<span class="medal" style="background-color: \${color};"><span class="medal-label" style="color: #FFFFFF;">\${
         data[1]
-    }</span><span class="medal-level" style="color: #\${color}; background-color: #FFFFFF;">\${data[0]}</span></span>\`;
+    }</span><span class="medal-level" style="color: \${color}; background-color: #FFFFFF;">\${data[0]}</span></span>\`;
             } else if (type == "enter" && data.is_lighted) {
-                let color = parseInt(data.medal_color).toString(16);
-                return \`<span class="medal" style="background-color: #\${color};"><span class="medal-label" style="color: #FFFFFF;">\${
+                let color = process_color(data.medal_color);
+                return \`<span class="medal" style="background-color: \${color};"><span class="medal-label" style="color: #FFFFFF;">\${
         data.medal_name
-    }</span><span class="medal-level" style="color: #\${color}; background-color: #FFFFFF;">\${
+    }</span><span class="medal-level" style="color: \${color}; background-color: #FFFFFF;">\${
         data.medal_level
     }</span></span>\`;
             }
