@@ -11,10 +11,11 @@ export default {
           background: {
             color: "#00000000",
           },
+          enter_bottom: true,
           font: {
             family: '"Microsoft YaHei", "Microsoft Sans Serif", "Microsoft SanSerf", "微软雅黑"',
           },
-          flip: false,
+          flip: true,
         },
         danmu: {
           line_margin: "8px",
@@ -105,6 +106,13 @@ export default {
               <el-row :gutter="10">
                 <el-col :span="18">
                   <el-switch v-model="config.general.flip" size="large" active-text="由下往上" inactive-text="由上往下" />
+                </el-col>
+              </el-row>
+
+              <p class="title">进入直播提示显示位置</p>
+              <el-row :gutter="10">
+                <el-col :span="18">
+                  <el-switch v-model="config.general.enter_bottom" size="large" active-text="底部" inactive-text="弹幕框内" />
                 </el-col>
               </el-row>
 

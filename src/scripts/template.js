@@ -13,7 +13,7 @@ body {
     width: 100%;
     ${config.general.flip ? '' : 'height: calc(100vh - 40px);' }
     ${config.general.flip ? 'position: absolute;' : '' }
-    ${config.general.flip ? 'bottom: calc(-100vh + 40px);' : '' }
+    ${config.general.flip ? 'bottom: calc(-100vh + 50px);' : '' }
     overflow-y: hidden;
 }
 
@@ -302,7 +302,7 @@ export function generate_html(config) {
                             );
                     } else if (element.cmd == "INTERACT_WORD") {
                         // 进入直播间
-                        document.getElementById("enter").innerHTML = \`<div><span class="enter">${
+                        document.getElementById("${config.general.enter_bottom ? "enter" : "message"}").innerHTML = \`<div class="line"><span class="enter">${
                             !config.enter.show_medal
                                 ? ""
                                 : `\${medal(
@@ -455,6 +455,18 @@ export function generate_preview_html(config) {
                 >`
                 }<span class="usr">银瓜子: </span><span class="msg">1 × PK票</span>
             </div>
+            <div class="line" style="${config.general.enter_bottom ? "display: none" : ""}">
+                <span class="enter"
+                    >${
+                        !config.enter.show_medal
+                            ? ""
+                            : `<span class="medal" style="background-color: #2d0855"
+                        ><span class="medal-label" style="color: #ffffff">粉丝牌</span
+                        ><span class="medal-level" style="color: #2d0855; background-color: #ffffff">29</span></span
+                    >`
+                    }大老板 进入直播间</span
+                >
+            </div>
             <div class="line"><span class="usr">waiguoren: </span><span class="msg">Danmu</span></div>
             <div class="line gift-gold">
                 感谢 
@@ -469,7 +481,7 @@ export function generate_preview_html(config) {
             </div>
         </div>
         <div id="enter" class="enter-container">
-            <div>
+            <div class="line" style="${config.general.enter_bottom ? "" : "display: none"}">
                 <span class="enter"
                     >${
                         !config.enter.show_medal
